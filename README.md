@@ -1,214 +1,195 @@
-Site E-Commerce Immobilier
+🛒 GreenStyle – Site E-commerce Éco-responsable (MERN Stack)
 1. Contexte et Présentation
 
-ImmoConnect est un projet de plateforme immobilière digitale visant à faciliter la mise en relation entre une agence immobilière et ses clients (acheteurs, locataires). Le site proposera la consultation, la recherche, et la gestion des annonces immobilières.
+GreenStyle est un projet de site e-commerce dédié à la vente de vêtements et accessoires éco-responsables (coton bio, matériaux recyclés, productions locales...).
+L’objectif est d’offrir aux utilisateurs une expérience fluide, moderne et éthique pour découvrir, acheter et gérer leurs achats de mode durable.
+La plateforme proposera un catalogue de produits, un panier, un système de paiement, ainsi qu’un espace administrateur pour la gestion de la boutique.
 
 2. Objectifs du Projet
 
-Digitaliser la gestion et la promotion des biens immobiliers de la société.
+Promouvoir une consommation éthique et durable dans l’industrie de la mode
 
-Offrir aux clients une expérience simple et efficace pour trouver un bien immobilier.
+Offrir une expérience utilisateur intuitive pour la recherche, l’achat et le suivi de commandes
 
-Permettre à l’agence de gérer facilement les annonces et demandes clients via un back-office sécurisé.
+Fournir un back-office complet pour les administrateurs (gestion des produits, utilisateurs, commandes)
 
-immo-connect/
+Déployer un site e-commerce moderne basé sur la stack MERN (MongoDB, Express, React, Node.js)
+
+📁 Arborescence du projet
+greenstyle/
 │
-├── backend/                        # Backend Node.js + Express
+├── backend/                        
 │   ├── config/                    # Configurations (BD, JWT, etc.)
-│   │   └── db.js                  # Connexion à la base MongoDB
-│   ├── controllers/               # Logique métier (gestion des routes)
-│   │   ├── authController.js
-│   │   ├── propertyController.js
-│   │   ├── userController.js
-│   │   └── contactController.js
+│   ├── controllers/               # Logique métier (produits, utilisateurs, commandes)
 │   ├── middleware/                # Middlewares (auth, erreurs, etc.)
-│   │   ├── authMiddleware.js
-│   │   └── errorMiddleware.js
-│   ├── models/                   # Modèles Mongoose (schémas BD)
-│   │   ├── User.js
-│   │   ├── Property.js
-│   │   └── Contact.js
-│   ├── routes/                   # Définition des routes API
-│   │   ├── authRoutes.js
-│   │   ├── propertyRoutes.js
-│   │   ├── userRoutes.js
-│   │   └── contactRoutes.js
-│   ├── utils/                   # Fonctions utilitaires (emails, validation)
-│   │   └── sendEmail.js
-│   ├── .env                     # Variables d’environnement (à ne pas partager)
-│   ├── server.js                # Point d’entrée de l’application backend
-│   └── package.json             # Dépendances backend
+│   ├── models/                    # Schémas MongoDB (User, Product, Order, etc.)
+│   ├── routes/                    # Routes API (produits, auth, commandes, etc.)
+│   ├── utils/                     # Fonctions utilitaires (paiement, email, etc.)
+│   ├── .env                       # Variables d’environnement
+│   ├── server.js                  # Point d’entrée serveur
+│   └── package.json               # Dépendances backend
 │
-├── frontend/                    # Frontend React.js
-│   ├── public/                 # Fichiers statiques (index.html, favicon)
+├── frontend/                      
+│   ├── public/                    
 │   ├── src/
-│   │   ├── assets/             # Images, logos, icônes
-│   │   ├── components/         # Composants React réutilisables
-│   │   │   ├── common/         # Boutons, Inputs, Modals, etc.
-│   │   │   ├── layout/         # Header, Footer, Navbar
-│   │   │   └── property/       # Composants spécifiques aux propriétés
-│   │   ├── contexts/           # Contexte React (authentification, thème)
-│   │   ├── hooks/              # Hooks personnalisés
-│   │   ├── pages/              # Pages principales (Home, Login, PropertyDetail)
-│   │   ├── services/           # Appels API (axios/fetch)
-│   │   ├── styles/             # Fichiers CSS/SCSS ou styled-components
-│   │   ├── utils/              # Fonctions utilitaires frontend
-│   │   ├── App.js              # Composant racine
-│   │   ├── index.js            # Point d’entrée React
-│   │   └── routes.js           # Configuration des routes React Router
-│   ├── package.json            # Dépendances frontend
-│   └── .env                   # Variables d’environnement frontend (API URL, etc.)
+│   │   ├── assets/                # Images, logos, icônes
+│   │   ├── components/            # Composants React (UI, produits, panier)
+│   │   ├── contexts/              # Contexte (auth, panier)
+│   │   ├── hooks/                 # Hooks personnalisés
+│   │   ├── pages/                 # Pages principales (Home, Product, Cart, etc.)
+│   │   ├── services/              # Appels API via Axios
+│   │   ├── styles/                # CSS/SCSS
+│   │   ├── App.js                 # Composant racine
+│   │   └── routes.js              # Routing React
+│   ├── .env                       
+│   └── package.json               
 │
-├── README.md                   # Documentation générale du projet
-└── .gitignore                  # Fichiers/dossiers ignorés par Git
-
+├── README.md                      
+└── .gitignore                     
 
 3. Description Fonctionnelle Détaillée
 3.1. Utilisateurs & Rôles
-| Rôle Utilisateur        | Description                     | Fonctionnalités clés                                                                             |
-| ----------------------- | ------------------------------- | ------------------------------------------------------------------------------------------------ |
-| Visiteur (non connecté) | Navigue sur le site sans compte | Consultation des biens, recherche, accès aux fiches produits, formulaire de contact              |
-| Client (connecté)       | Utilisateur inscrit             | Ajout de biens aux favoris, consultation de son historique, envoi de demandes, gestion du profil |
-| Agent immobilier        | Employé de l’agence             | Gestion des annonces (ajout/modification/suppression), consultation des demandes clients         |
-| Administrateur          | Super utilisateur               | Gestion des utilisateurs, agents, annonces, statistiques, modération                             |
+Rôle Utilisateur	Description	Fonctionnalités clés
+Visiteur	Utilisateur non connecté	Parcourir les produits, recherche, voir les détails
+Client	Utilisateur inscrit	Passer commande, gérer panier, voir historique
+Administrateur	Gestionnaire du site	CRUD produits, gestion des commandes, utilisateurs
+3.2. Fonctionnalités Détaillées
+a) Page d’accueil
 
-3.2. Fonctionnalités détaillées
-a) Page d’Accueil
+Mise en avant des produits populaires, nouveautés
 
-Mise en avant des biens récents ou populaires
+Bannière marketing
 
-Barre de recherche rapide (par ville, type de bien, budget)
+Accès rapide aux catégories
 
-Accès rapide aux catégories (appartements, maisons, terrains, commerces)
+b) Catalogue Produits
 
-Présentation de l’agence, coordonnées, actualités
+Liste paginée
 
-b) Catalogue des biens
+Filtres : catégorie, prix, matériau, taille
 
-Affichage paginé des annonces
+Tri : prix croissant/décroissant, nouveautés
 
-Filtres avancés : type, prix, surface, nombre de pièces, localisation, statut (vente/location)
+c) Fiche Produit
 
-Tri par prix, date, popularité
+Images haute qualité
 
-Vignettes avec photo, prix, localisation
+Description, tailles disponibles, stock
 
-c) Fiche détaillée d’un bien
+Bouton "Ajouter au panier"
 
-Galerie photos haute qualité
+Suggestions produits similaires
 
-Description complète (surface, prix, quartier, caractéristiques, diagnostics)
+d) Panier & Paiement
 
-Carte interactive (Google Maps intégrée)
+Panier dynamique
 
-Bouton "Contactez-nous" / formulaire de demande de visite
+Modification des quantités
 
-Affichage des biens similaires
+Validation de commande
 
-d) Espace utilisateur (client)
+Paiement simulé (ou Stripe/PayPal en option)
 
-Tableau de bord personnel
+e) Espace Client
 
-Gestion des favoris
+Historique des commandes
 
-Historique des recherches et demandes
+Suivi des livraisons
 
-Modification du profil et mot de passe
+Modification des informations personnelles
 
-e) Back-office (agent & admin)
+f) Back-office Admin
 
-Interface sécurisée par authentification
+Interface sécurisée
 
-Gestion complète des annonces (CRUD)
+CRUD produits
 
-Visualisation des demandes clients
+Gestion des commandes
 
-Gestion des utilisateurs (création, modification, suppression)
+Gestion des utilisateurs
 
-Tableau de bord avec statistiques (nombre de visites, demandes, annonces en ligne)
+Statistiques de vente (optionnel)
 
 4. Contraintes Techniques et Fonctionnelles
 
-Technologies : MERN Stack (MongoDB, Express, React, Node.js)
+Technologies : MERN (MongoDB, Express, React, Node.js)
 
-Compatibilité multi-navigateurs (Chrome, Firefox, Edge, Safari)
+Responsive design : mobile / tablette / desktop
 
-Responsive design (mobile, tablette, desktop)
+Performance : Chargement rapide des pages (< 3s)
 
-Temps de chargement inférieur à 3 secondes
+Sécurité :
 
-Accessibilité conforme aux normes WCAG (niveau AA recommandé)
+Authentification avec JWT
 
-Sécurité : protection des données utilisateurs, chiffrement des mots de passe, prévention des injections SQL/NoSQL, authentification JWT
+Hashage des mots de passe avec bcrypt
 
-Scalabilité : architecture modulaire facilitant les évolutions futures
+Validation des entrées
+
+Protection XSS/CSRF
+
+Accessibilité : conforme aux normes WCAG (niveau AA recommandé)
 
 5. Sécurité
 
-Utilisation du protocole HTTPS obligatoire
+Chiffrement des mots de passe (bcrypt)
 
-Stockage sécurisé des mots de passe (bcrypt)
+Sessions sécurisées avec JWT
 
-Gestion des sessions avec JWT et renouvellement sécurisé
+Validation des formulaires
 
-Validation et sanitisation des entrées utilisateur pour éviter les injections
+Protection contre les attaques courantes (XSS, CSRF, NoSQL injection)
 
-Protection contre les attaques XSS, CSRF
-
-Sauvegarde régulière de la base de données
+Sauvegarde régulière de la base
 
 6. Indicateurs de Performance
-
-Temps de réponse moyen des pages < 2 secondes
-
-Disponibilité du service > 99.5%
-
-Taux d’erreur (bugs critiques) < 1% post-lancement
-
-Taux de conversion (visites vers demande de contact) > 10% (objectif à ajuster selon contexte)
-
+Indicateur	Objectif
+Temps de chargement	< 3s
+Disponibilité	> 99.5%
+Erreurs critiques	< 1%
+Taux de conversion (visite → achat)	> 5%
 7. Maintenance & Évolutivité
 
-Code source bien documenté pour faciliter la maintenance
+Code structuré, modulaire, documenté
 
-Utilisation de bonnes pratiques (modularité, tests unitaires)
+Architecture facilement extensible (nouveaux modules, API tierces)
 
-Possibilité d’ajouter des fonctionnalités : messagerie, réservation en ligne, notifications
-
-Prévoir la montée en charge (possibilité d’utiliser un cluster MongoDB, load balancing)
+Possibilité d’ajouter : messagerie client/admin, alertes stock, avis produits, notifications par mail
 
 8. Planning Prévisionnel
-| Étape                    | Description                                 | Durée estimée |
-| ------------------------ | ------------------------------------------- | ------------- |
-| Analyse & spécifications | Finalisation du cahier des charges          | 3 jours       |
-| UI/UX Design             | Maquettage et validation du design          | 1 semaine     |
-| Développement Front-end  | Création de l’interface utilisateur         | 2 semaines    |
-| Développement Back-end   | API, base de données, sécurité              | 2 semaines    |
-| Tests & validation       | Tests fonctionnels, corrections             | 5 jours       |
-| Déploiement              | Mise en production et configuration serveur | 2 jours       |
-| Formation & support      | Documentation & formation utilisateur       | 2 jours       |
-
-
-
+Étape	Description	Durée estimée
+Spécifications	Définir les besoins	3 jours
+Design UI/UX	Maquettes (Figma ou autre)	1 semaine
+Frontend	React + intégration	2 semaines
+Backend	API REST avec Express/MongoDB	2 semaines
+Tests	QA + corrections	5 jours
+Déploiement	Hosting (Render, Vercel, etc.)	2 jours
+Support	Docs + formation admin	2 jours
 9. Livrables
 
-Cahier des charges validé
+Cahier des charges
 
-Maquettes graphiques (wireframes / prototypes)
+Maquettes graphiques
 
-Code source complet (front-end/back-end)
+Code source MERN (front + back)
+
+Site déployé
 
 Documentation technique et utilisateur
 
-Site web déployé en production
-
 Rapport final de projet
 
-10. Annexes
 
-Exemples d’interface / inspiration : Logic-Immo
-, SeLoger
+📌 Technologies utilisées
 
-Références techniques MERN Stack
+React.js + React Router + Context API
 
-Normes et bonnes pratiques en développement web
+Node.js / Express
+
+MongoDB + Mongoose
+
+JWT / Bcrypt / Dotenv
+
+Axios / Postman
+
+CSS Modules ou Tailwind CSS (au choix)
